@@ -1,0 +1,18 @@
+{
+    "contents" : "rm(list=ls(all=TRUE))\nlibrary(XML)\nlibrary(bitops)\nlibrary(RCurl)\nlibrary(httr)\n\norgURL = 'https://www.ptt.cc/bbs/movie/index'\n#orgURL = 'https://www.ptt.cc/bbs/StupidClown/index.html'\n#http://www.ptt.cc/bbs/movie/index500.html\n\nstartPage = 500\nendPage = 600\nalldata = data.frame()\nfor( i in startPage:endPage)#這個迴圈跑一次就代表跑一個頁面的資料\n{\n  pttURL <- paste(orgURL, i, '.html', sep='')\n  urlExists = url.exists(pttURL)\n  \n  if(urlExists)\n  {\n    html = getURL(pttURL, ssl.verifypeer = FALSE)\n    xml = htmlParse(html, encoding ='utf-8')\n    title = xpathSApply(xml, \"//div[@class='title']/a//text()\", xmlValue)\n    author = xpathSApply(xml, \"//div[@class='author']\", xmlValue)\n    path = xpathSApply(xml, \"//div[@class='title']/a//@href\")\n    date = xpathSApply(xml, \"//div[@class='date']\", xmlValue)\n    response = xpathSApply(xml, \"//div[@class='nrec']\", xmlValue)\n    tempdata = data.frame(title, author, path, date, response)\n  }\n  alldata = rbind(alldata, tempdata)\n}\n\nallDate = levels(alldata$date)\nres = hist(as.numeric(alldata$date), nclass=length(allDate), axes=F) \naxis(1, at=1:length(allDate), labels=allDate)\naxis(2, at=1:max(res$counts), labels=1:max(res$counts))",
+    "created" : 1470759187749.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "1037647626",
+    "id" : "971B373F",
+    "lastKnownWriteTime" : 1470761765,
+    "path" : "C:/Users/user/Desktop/台大R/mobile01投資與理財版/teacher_demo.R",
+    "project_path" : "teacher_demo.R",
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 0,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

@@ -1,0 +1,18 @@
+{
+    "contents" : "#抓到標題://span[@class=\"subject-text\"]/a/text()\n#抓到回復數://td/text()\n#作者與日期://td/a/p/text()\n\n#網站的頁面設定(就是p在做改變而已):http://www.mobile01.com/topiclist.php?f=291&p=5\n\n\nrm(list=ls(all=TRUE))\nlibrary(XML)\nlibrary(bitops)\nlibrary(RCurl)\nlibrary(httr)\nlibrary(xml2)\n\norgURL = 'http://www.mobile01.com/topiclist.php?f=291&p=1'\n\nurl <-\"http://www.mobile01.com/topiclist.php?f=291&p=1\"\n#download.file(url,\"C:\\\\Users\\\\user\\\\Desktop\\\\cnyes.html\")\ndoc <- read_html(url) \n\nstartPage = 1\nendPage = 10\nalldata = data.frame()\n\n#抓一個網址的就好了\nurl.exists(orgURL)\n\nfor( i in startPage:endPage)#這個迴圈跑一次就代表跑一個頁面的資料\n{ \n  pttURL <- paste(orgURL,i, sep='')\n  urlExists = url.exists(pttURL)\n  \n  if(urlExists)\n  {\n    html = getURL(pttURL, ssl.verifypeer = FALSE)\n    xml = htmlParse(html, encoding ='utf-8')\n    title = xpathSApply(xml, \"//span[@class='subject-text']/a/text()\", xmlValue)\n    author =xpathSApply(xml,\"//td/a/p/text()\",xmlValue)\n    response = xpathSApply(xml, \"//td/text()\", xmlValue)\n    tempdata = data.frame(title, author, response)\n  }\n  alldata = rbind(alldata, tempdata)\n}\n\nallDate = levels(alldata$date)\nres = hist(as.numeric(alldata$date), nclass=length(allDate), axes=F) \naxis(1, at=1:length(allDate), labels=allDate)\naxis(2, at=1:max(res$counts), labels=1:max(res$counts))",
+    "created" : 1470758315099.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "1799790875",
+    "id" : "970067E7",
+    "lastKnownWriteTime" : 1470761750,
+    "path" : "C:/Users/user/Desktop/台大R/mobile01投資與理財版/mobile01.R",
+    "project_path" : "mobile01.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 0,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
