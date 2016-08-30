@@ -1,0 +1,18 @@
+{
+    "contents" : "rm(list=ls(all=TRUE))\n# install.packages(\"jiebaR\")\n# install.packages(\"tm\")\n# install.packages(\"slam\")\n# install.packages(\"RColorBrewer\")\n# install.packages(\"wordcloud\")\n# install.packages(\"topicmodels\")\n# install.packages(\"igraph\")\n# install.packages(\"xml2\")\n\nlibrary(jiebaRD)\nlibrary(jiebaR)       # 斷詞利器\nlibrary(NLP)\nlibrary(tm)           # 文字詞彙矩陣運算\nlibrary(slam)         # 稀疏矩陣運算\nlibrary(RColorBrewer)\nlibrary(wordcloud)    # 文字雲\n# library(topicmodels)  # 主題模型\nlibrary(plyr)\n\nsource('chosePage.R')\n\n#Sys.setlocale(\"LC_ALL\", \"cht\")\n\nresult = chosePage(1,2)\n\norgPath = \"./temp\"\ntext = Corpus(DirSource(orgPath), list(language = NA))\ntext <- tm_map(text, removePunctuation)\ntext <- tm_map(text, removeNumbers)\ntext <- tm_map(text, function(word)\n{ gsub(\"[A-Za-z0-9]\", \"\", word) })\n\n# 進行中文斷詞\nmixseg = worker()\nmat <- matrix( unlist(text) )#把character用成matrix\ntotalSegment = data.frame()\n\n#用雙重迴圈把矩陣轉換成資料表，當中順便做了斷詞\nfor( j in 1:length(mat) )\n{\n  for( i in 1:length(mat[j,]) )\n  {\n    result = segment(as.character(mat[j,i]), jiebar=mixseg)\n  }\n  totalSegment = rbind(totalSegment, data.frame(result))\n}\n\n#建立term-document matrix\ntdm <- TermDocumentMatrix(text, control = list(wordLengths = c(2, Inf)))\ntdm\ninspect(tdm[1:10, 1:2])\n\n#因為tm0.6版\n# remove.packages(\"tm\")\n# install.packages(\"http://cran.r-project.org/bin/windows/contrib/3.0/tm_0.5-10.zip\",repos=NULL)\n# library(tm)\n\n\n# define text array that you want\n# delete text length < 2\ndelidx = which( nchar(as.vector(totalSegment[,1])) < 2 )#用which來做挑選編號\ncountText = totalSegment[-delidx,]#減去長度小於2的關鍵字的編號\ncountResult = count(countText)[,1]#要做文字雲的那些關鍵字\ncountFreq = count(countText)[,2] / sum(count(countText)[,2]) #所占的比例\nwordcloud(countResult, countFreq, min.freq = 1, random.order = F, ordered.colors = T, \n          colors = rainbow(length(countResult)))",
+    "created" : 1472298600505.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "2916171169",
+    "id" : "A54C98B0",
+    "lastKnownWriteTime" : 1472311500,
+    "path" : "C:/Users/user/Desktop/台大R/台大_R/shiny/text_mining_example/textMining.R",
+    "project_path" : "textMining.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

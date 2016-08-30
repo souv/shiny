@@ -1,0 +1,17 @@
+{
+    "contents" : "# This is the server logic for a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\nsource('./TestAndRegression/ReFit.R')\nsource('./SVM/TestSVM.R')\n\nshinyServer(function(input, output, session) {\n  \n  #rshiny event handler:use label to control other label\n  selAll <- observeEvent(input$SelectAll, {\n    updateCheckboxGroupInput(session,\"Type\", selected=as.character(c(2:5)))\n  })\n  \n  delALL <- observeEvent(input$DelAll, {\n    updateCheckboxGroupInput(session,\"Type\", selected=c(\"\"))\n  })  \n  \n  output$allPrices <- renderPlot({\n    \n    typeName = c(\"date\", \"EUR\", \"GBP\", \"USD\", \"GOLD\")\n    \n    getType = as.numeric(input$Type)\n    \n    if(length(getType) >=1)\n    {\n      subPrice = data.frame(price$date, price[,getType])\n      names(subPrice) = c(\"date\", typeName[getType])\n      \n      mdf <- melt(subPrice, id.vars=\"date\", value.name=\"Price\", variable.name=\"FX\")\n      \n      ggplot(data=mdf, aes(x=date, y=Price, group=FX, colour=FX)) +\n        geom_line() +\n        geom_point( size=1, shape=1, fill=\"white\" )\n    }\n  })\n  \n  output$regression <- renderPlot({\n    plot(predict, Xpred%*%Beta, type=\"l\", col=\"red\")\n    lines(predict, price$GOLD[predict], col=\"blue\")\n  })\n  \n  output$fxToGold <- renderPlot({\n    fxselect = as.numeric(input$selectFX)\n    subpriceFX <- data.frame(price$GOLD, price[,fxselect])\n    names(subpriceFX) = c(\"GOLD\", \"FX\")\n    lmresult <- with(subpriceFX, lm(GOLD ~ FX))\n    plot(GOLD ~ FX, data=subpriceFX, main=\"\",\n         xlab=\"FX\",\n         ylab=\"GOLD\")\n    abline(lmresult, lwd=2)\n  })\n  \n  output$fxTest <- renderDataTable({\n    typeName = c(\"date\", \"EUR\", \"GBP\", \"USD\", \"GOLD\")\n    fxselect = as.numeric(input$selectFX)\n    subpriceFX <- data.frame(price$GOLD, price[,fxselect])\n    names(subpriceFX) = c(\"GOLD\", \"FX\")\n    testResult = summary(lm(GOLD ~ FX, data = subpriceFX ))\n    showName = rbind(\"Intercept\", typeName[fxselect])\n    data.frame(showName, testResult$coefficients)\n  })\n  \n  output$svmResult <- renderDataTable({\n    outTable = data.frame(svm.test)\n    names(outTable) = c(\"pred\", \"org\", \"freq\")\n    outTable\n  })\n  \n})",
+    "created" : 1472525594862.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "3634168639",
+    "id" : "108C346",
+    "lastKnownWriteTime" : 1472542220,
+    "path" : "C:/Users/user/Desktop/台大R/台大_R/shiny/reg+svm/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

@@ -1,0 +1,18 @@
+{
+    "contents" : "#http://rstudio-pubs-static.s3.amazonaws.com/12422_b2b48bb2da7942acaca5ace45bd8c60c.html\n#tm包的問題http://stackoverflow.com/questions/24191728/documenttermmatrix-error-on-corpus-argument\n\n\norgPath = \"./open_stock\"\ntext = Corpus(DirSource(orgPath), list(language = NA))\ntext <- tm_map(text, removePunctuation)\ntext <- tm_map(text, removeNumbers)\ntext <- tm_map(text, function(word)\n{ gsub(\"[A-Za-z0-9]\", \"\", word) })\n\n# 進行中文斷詞\nmixseg = worker()\nmat <- matrix( unlist(text) )#把character用成matrix\ntotalSegment = data.frame()\n\n#用雙重迴圈把矩陣轉換成資料表，當中順便做了斷詞\nfor( j in 1:length(mat) )\n{\n  for( i in 1:length(mat[j,]) )\n  {\n    result = segment(as.character(mat[j,i]), jiebar=mixseg)\n  }\n  totalSegment = rbind(totalSegment, data.frame(result))\n}\n\n#建立term-document matrix\n\ntdm <- TermDocumentMatrix(text, control = list(wordLengths = c(2,3)))\ntdm\ninspect(tdm[3:25, 1:144])\nidx <- which(dimnames(tdm)$Terms == \"配\")\ninspect(tdm[idx+(0:5),101:110])\n\n#\nfindFreqTerms(tdm, lowfreq=2)\ntermFrequency <- rowSums(as.matrix(tdm))\ntermFrequency <- subset(termFrequency, termFrequency>=10)\nlibrary(ggplot2)\nqplot(names(termFrequency), termFrequency, geom=\"bar\", xlab=\"Terms\") + coord_flip()\na=barplot(termFrequency, las=1)\nfindAssocs(tdm,\"無\",0.25)\n\n\nlibrary(plotly)\nplotly(a)\n\n#把每一行都用成一筆txt\nsetwd(\"C:\\\\Users\\\\user\\\\Desktop\\\\台大R\\\\台大_R\\\\shiny\\\\text_mining_example\\\\open_stock\")\nstock=read.csv(\"open_stock.csv\")\n# d <- split(stock,rep(1:144,each=1))\n\nstock <- as.list(as.data.frame(t(stock)))\nfor (i in (1:length(stock))){\na=as.character(stock[[i]])\nname=paste(\"number\",i,\".txt\")\nwriteLines(a,name)\n}\n\n# define text array that you want\n# delete text length < 2\ndelidx = which( nchar(as.vector(totalSegment[,1])) < 2 )#用which來做挑選編號\ncountText = totalSegment[-delidx,]#減去長度小於2的關鍵字的編號\ncountResult = count(countText)[,1]#要做文字雲的那些關鍵字\ncountFreq = count(countText)[,2] / sum(count(countText)[,2]) #所占的比例\nwordcloud(countResult, countFreq, min.freq = 5, random.order = F, ordered.colors = T, \n          colors = rainbow(length(countResult)))",
+    "created" : 1472302169167.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "2046758929",
+    "id" : "7E5A0DA6",
+    "lastKnownWriteTime" : 1472468094,
+    "path" : "C:/Users/user/Desktop/台大R/台大_R/shiny/text_mining_example/公開資料文字探勘.R",
+    "project_path" : "公開資料文字探勘.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

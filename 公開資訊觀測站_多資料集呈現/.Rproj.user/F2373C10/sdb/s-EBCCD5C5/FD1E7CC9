@@ -1,0 +1,17 @@
+{
+    "contents" : "\n# This is the server logic for a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\n\nshinyServer(function(input, output) {\n  \n  # a large table, reative to input$show_vars\n  output$mytable1 = renderDataTable({\n\n    open_data[, input$show_vars, drop = FALSE]\n  })\n  \n  output$mytable2 = renderDataTable({\n    \n    past_data[, input$show_vars, drop = FALSE]\n  })\n  \n})",
+    "created" : 1471623186444.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "1452261106",
+    "id" : "FD1E7CC9",
+    "lastKnownWriteTime" : 1471710095,
+    "path" : "C:/Users/user/Desktop/台大R/台大_R/shiny/公開資訊觀測站_多資料集呈現/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

@@ -1,0 +1,18 @@
+{
+    "contents" : "library(reshape2)\nlibrary(ggplot2)\nlibrary(xts)\nlibrary(zoo)\nlibrary(TTR)\nlibrary(quantmod)\nlibrary(fArma)\n\ngetSymbols(\"GLD\", from='2016-01-04', to='2016-08-10')\ngetFX(\"EUR/TWD\", from='2016-01-04', to='2016-08-10')\ngetFX(\"GBP/TWD\", from='2016-01-04', to='2016-08-10')\ngetFX(\"USD/TWD\", from='2016-01-04', to='2016-08-10')\n\nfxid = index(EURTWD)\ngoldid = index(GLD)\nundelid = c()\nfor(i in 1:length(fxid))\n{\n  for(j in 1:length(goldid))\n  {\n    if( fxid[i] == goldid[j] )\n    {\n      #print(i)\n      #print(fxid[i])\n      #print(goldid[j])\n      undelid = rbind(undelid, i)    \n      break\n    }\n  }\n}\n\nprice=data.frame(goldid, EURTWD[undelid,], GBPTWD[undelid,], USDTWD[undelid,], GLD[,4])\nprice[,2:5] = log(price[,2:5])\nnames(price) = c(\"date\", \"EUR\", \"GBP\", \"USD\", \"GOLD\")\n\nEURDiff = diff( price$EUR )\nEURDiff = as.ts( tail( EURDiff ) )\nfit = armaFit( formula=~arma(2,2), data=EURDiff)\nfit@fit$aic\nas.numeric( predict( fit, n.ahead=1, doplot=F )$pred )\n\n# regression y = b1 x1 + b2 x2 + b3 x3\ntrain = 1:100\npredict = 101:153\noneV = rep(1, length(train))\nX = as.matrix( cbind(oneV, price[train,2:4]) )\nY = as.matrix( price[train, 5] )\nBeta = solve(t(X) %*% X) %*% t(X) %*% Y\noneV = rep(1, length(predict))\nXpred = as.matrix( cbind(oneV, price[predict, 2:4]) )\n",
+    "created" : 1472525732833.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "4110409434",
+    "id" : "5BEE630D",
+    "lastKnownWriteTime" : 1472541209,
+    "path" : "C:/Users/user/Desktop/台大R/台大_R/shiny/reg+svm/ReFit.r",
+    "project_path" : "ReFit.r",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

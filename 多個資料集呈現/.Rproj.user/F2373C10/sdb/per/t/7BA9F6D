@@ -1,0 +1,17 @@
+{
+    "contents" : "\n# This is the server logic for a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\n\nshinyServer(function(input, output) {\n  \n  # a large table, reative to input$show_vars\n  output$mytable1 = renderDataTable({\n    library(ggplot2)\n    diamonds[, input$show_vars, drop = FALSE]\n  })\n  \n  # sorted columns are colored now because CSS are attached to them\n  output$mytable2 = renderDataTable({\n    mtcars\n  }, options = list(orderClasses = TRUE))\n  \n  # customize the length drop-down menu; display 5 rows per page by default\n  output$mytable3 = renderDataTable({\n    iris\n  }, options = list(lengthMenu = c(5, 30, 50), pageLength = 5))\n  \n})",
+    "created" : 1471622513261.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "1996261473",
+    "id" : "7BA9F6D",
+    "lastKnownWriteTime" : 1471622924,
+    "path" : "C:/Users/user/Desktop/台大R/台大_R/shiny/多個資料集呈現/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

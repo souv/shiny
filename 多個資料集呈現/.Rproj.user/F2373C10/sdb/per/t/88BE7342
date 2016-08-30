@@ -1,0 +1,17 @@
+{
+    "contents" : "\n# This is the user-interface definition of a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\nlibrary(ggplot2)  # for the diamonds dataset\n\nshinyUI(pageWithSidebar(\n  headerPanel('Examples of DataTables'),\n  sidebarPanel(\n    checkboxGroupInput('show_vars', \n                       'Columns in diamonds to show:', \n                       names(diamonds),\n                       selected = names(diamonds)),\n    helpText('For the diamonds data, we can select variables\n             to show in the table; for the mtcars example, we\n             use orderClasses = TRUE so that sorted columns \n             are colored since they have special CSS classes \n             attached; for the iris data, we customize the \n             length menu so we can display 5 rows per page.')\n    ),\n  mainPanel(\n    tabsetPanel(\n      tabPanel('diamonds',\n               dataTableOutput(\"mytable1\")),\n      tabPanel('mtcars',\n               dataTableOutput(\"mytable2\")),\n      tabPanel('iris',\n               dataTableOutput(\"mytable3\"))\n    )\n  )\n    ))\n",
+    "created" : 1471622512138.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "305937658",
+    "id" : "88BE7342",
+    "lastKnownWriteTime" : 1471622883,
+    "path" : "C:/Users/user/Desktop/台大R/台大_R/shiny/多個資料集呈現/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

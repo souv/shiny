@@ -1,0 +1,16 @@
+{
+    "contents" : "library(RCurl)\nlibrary(XML)\nlibrary(stringr)\nlibrary(plyr)\n#按install尋找RSelenium並安裝\nlibrary(RSelenium)\nsetwd(\"D:\\\\其他\\\\研究所\\\\參考書電子檔\")\n\n#環境設定\nremDr<-remoteDriver(remoteServerAddr=\"localhost\",port=4444,browserName=\"firefox\")\n\n#開啟瀏覽器\nremDr$open()\n\n#狀態訊息\nremDr$getStatus()\n\n#連結到指定網站\nremDr$navigate(\"http://addr.taipei/egissearch97/showmapMain.aspx?xcoor=305001.876&ycoor=2765717.234&zone=100&xaddr=44200000000000010000000100000\")\n#先記錄這個頁面代碼以便後面做切換使用\nremID<-remDr$getWindowHandles()\n\n#尋找並切換到checkbox所在的frame\nremElem1<-remDr$findElement('name','frameFun')\nremDr$switchToFrame(remElem1)\n\n#獲取建物套繪圖前面的勾選框的id並點選\nCBID<-remDr$findElements('id','TreeView1n19CheckBox')\nCBID[[1]]$clickElement()\n#獲取締圖開關確認的id並點擊\nCFID<-remDr$findElements('id','butMap0')\nCFID[[1]]$clickElement()\n#到這部即可取得有建物套繪圖資訊的圖\n\n#先切換回到原本的網頁\nremDr$switchToWindow(remID[[1]])\n#找到圖的frame並切換到圖所在的frame\nremElem2<-remDr$findElement('name','frameMap')\nremDr$switchToFrame(remElem2)\n#抓取frame中的html內容\nremPar<-htmlParse(remDr$getPageSource()[[1]])\nremNPar<-remDr$getPageSource()[[1]]\n\n\n#設定抓取目標資訊的xpath或表達式(這邊的抓取目標是建物套繪圖)\n#xpath這邊較為簡單，但有亂碼問題\nxpath1 <- \"//div[@id='panMap']/input[@src='images/icon/map-bud.gif']/@title\"\nxpath2 <- \"//div[@id='panMap']/input[@src='images/icon/map-addr.gif']/@title\"\nnum1 <- unlist(xpathApply(remPar, xpath1))\nnum2 <- unlist(xpathApply(remPar, xpath2))\n#正則表達式不會亂碼但語句複雜\nnamee1<-str_extract_all(remNPar,\"[\\\\u4e00-\\\\u9fa5]+\\\\:\\\\[\\\\d+\\\\-\\\\([\\\\u4e00-\\\\u9fa5]+\\\\)\\\\-\\\\d+\\\\]|[\\\\u4e00-\\\\u9fa5]+\\\\:\\\\[\\\\d+\\\\-\\\\d+\\\\]\")\nnamee2<-str_extract_all(remNPar,\"([\\\\u4e00-\\\\u9fa5]+\\\\d+)+[\\\\u4e00-\\\\u9fa5]\")\n\n#1為建物套繪圖的抓取結果\n#2為門牌號碼的抓取結果",
+    "created" : 1471252851167.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "1577809858",
+    "id" : "F867C44E",
+    "lastKnownWriteTime" : 1471252848,
+    "path" : "C:/Users/user/Downloads/RSelenium (1).R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

@@ -1,0 +1,17 @@
+{
+    "contents" : "\n# This is the user-interface definition of a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\nlibrary(utils)\nopen_data=read.csv(\"open_stock.csv\")\npast_data=read.csv(\"past_data.csv\")\n\n\nshinyUI(pageWithSidebar(\n  headerPanel('OPEN STOCK DataTables'),\n  sidebarPanel(\n    checkboxGroupInput('show_vars', \n                       'Columns in data to show:', \n                       names(open_data),\n                       selected = names(open_data)),\n    helpText('For the diamonds data, we can select variables\n             to show in the table; for the mtcars example, we\n             use orderClasses = TRUE so that sorted columns \n             are colored since they have special CSS classes \n             attached; for the iris data, we customize the \n             length menu so we can display 5 rows per page.')\n    ),\n  mainPanel(\n    tabsetPanel(\n      tabPanel('open_data',\n               dataTableOutput(\"mytable1\")),\n      tabPanel('past_data',\n               dataTableOutput(\"mytable2\"))\n#       tabPanel('iris',\n#                dataTableOutput(\"mytable3\"))\n    )\n  )\n    ))",
+    "created" : 1471623184840.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "3928711708",
+    "id" : "2DEF1A18",
+    "lastKnownWriteTime" : 1471710200,
+    "path" : "C:/Users/user/Desktop/台大R/台大_R/shiny/公開資訊觀測站_多資料集呈現/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

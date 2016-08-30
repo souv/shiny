@@ -1,0 +1,17 @@
+{
+    "contents" : "library(shiny)\n\n# Load the ggplot2 package which provides\n# the 'mpg' dataset.\nlibrary(ggplot2)\n\n\n\n\n# Define a server for the Shiny app\nshinyServer(function(input, output) {\n  \n  # Filter data based on selections\n  output$table <- renderTable({\n    data <- mpg\n    if (input$man != \"All\"){\n      data <- data[data$manufacturer == input$man,]\n    }\n    if (input$cyl != \"All\"){\n      data <- data[data$cyl == input$cyl,]\n    }\n    if (input$trans != \"All\"){\n      data <- data[data$trans == input$trans,]\n    }\n    data\n  })\n  \n})",
+    "created" : 1471613230396.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "3240953634",
+    "id" : "9D5929AE",
+    "lastKnownWriteTime" : 1471616179,
+    "path" : "C:/Users/user/Desktop/台大R/台大_R/shiny/display mpg dataset/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

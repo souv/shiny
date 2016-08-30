@@ -1,0 +1,17 @@
+{
+    "contents" : "\n# This is the user-interface definition of a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(utils)\n\nlibrary(shiny)\n\nopen_stock<-read.csv(\"open_stock.csv\", header=T)\n\nshinyUI(fluidPage(\n\n  # Application title\n  titlePanel(\"OPEN STOCK INFORMATION DATABASE\"),\n  \n  fluidRow(\n    div(class=\"span4\", \n        selectInput(\"date2\", \n                    \"date:\", \n                    c(\"All\", \n                      unique(as.character(open_stock$date))))\n    ),\n    div(class=\"span4\", \n        selectInput(\"time2\", \n                    \"time:\", \n                    c(\"All\", \n                      unique(as.character(open_stock$time))))\n    ),\n    div(class=\"span4\", \n        selectInput(\"people2\", \n                    \"people:\", \n                    c(\"All\", \n                      unique(as.character(open_stock$people))))\n    )  \n  ),\n  \n  \n  \n\n  fluidRow(\n    tableOutput(outputId=\"table\")\n    \n  )\n))\n",
+    "created" : 1471617105742.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "2395338611",
+    "id" : "9AA1FA76",
+    "lastKnownWriteTime" : 1471619799,
+    "path" : "C:/Users/user/Desktop/台大R/台大_R/shiny/公開資訊資料庫/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

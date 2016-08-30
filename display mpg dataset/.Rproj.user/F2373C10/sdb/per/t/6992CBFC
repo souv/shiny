@@ -1,0 +1,17 @@
+{
+    "contents" : "\n\nlibrary(shiny)\n\n#HELLO\n# Load the ggplot2 package which provides\n# the 'mpg' dataset.\nlibrary(ggplot2)\n\n# Define the overall UI\nshinyUI(\n  fluidPage(\n    titlePanel(\"MPG Filter\"),\n    \n    # Create a new Row in the UI for selectInputs\n    fluidRow(\n      div(class=\"span4\", \n          selectInput(\"man\", \n                      \"Manufacturer:\", \n                      c(\"All\", \n                        unique(as.character(mpg$manufacturer))))\n      ),\n      div(class=\"span4\", \n          selectInput(\"trans\", \n                      \"Transmission:\", \n                      c(\"All\", \n                        unique(as.character(mpg$trans))))\n      ),\n      div(class=\"span4\", \n          selectInput(\"cyl\", \n                      \"Cylinders:\", \n                      c(\"All\", \n                        unique(as.character(mpg$cyl))))\n      )        \n    ),\n    # Create a new row for the table.\n    fluidRow(\n      tableOutput(outputId=\"table\")\n    )    \n  )  \n)",
+    "created" : 1471613229008.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "2665621262",
+    "id" : "6992CBFC",
+    "lastKnownWriteTime" : 1471620333,
+    "path" : "C:/Users/user/Desktop/台大R/台大_R/shiny/display mpg dataset/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

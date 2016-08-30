@@ -1,0 +1,17 @@
+{
+    "contents" : "\n# This is the server logic for a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\n\nshinyServer(function(input, output) {\n  \n  # Filter data based on selections\n  output$table <- renderTable({\n    \n    data <- open_stock\n    \n    if (input$date2 != \"All\"){\n      data <- data[data$date == input$date2,]\n    }\n    \n    if (input$time2 != \"All\"){\n      data <- data[data$time == input$time2,]\n    }\n    \n    if (input$people2 != \"All\"){\n      data <- data[data$people == input$people2,]\n    }\n    \n    data\n    \n  })\n  \n})",
+    "created" : 1471617106394.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "264009435",
+    "id" : "36775702",
+    "lastKnownWriteTime" : 1471622916,
+    "path" : "C:/Users/user/Desktop/台大R/台大_R/shiny/公開資訊資料庫/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

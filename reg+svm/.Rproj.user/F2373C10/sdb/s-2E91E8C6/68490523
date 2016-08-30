@@ -1,0 +1,18 @@
+{
+    "contents" : "library('e1071')\ntotalnp = length(price$date)\nnp = totalnp * 0.9\nreturn = price$GOLD[2:totalnp] - price$GOLD[1:(totalnp-1)]\nY = return / abs(return)\nX = price[1:(totalnp-1),2:5]\n\nindex = 1:np\nTrainY = data.frame(Y[index])\nnames(TrainY) = c(\"label\")\nTrainX = X[index,]\nTrainData = cbind(TrainY, TrainX)\n\nTestData = X[-index,]\n\nsvm.model = svm( label ~ ., TrainData, kernal='radial', type = 'C-classification', cost = 10, gamma = 0.1)\nsvm.pred = predict(svm.model, TestData)\n\nsvm.test = table(svm.pred, Y[-index])\ncorrect = sum(diag(svm.test) / sum(svm.test)) * 100",
+    "created" : 1472525667158.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "1245954725",
+    "id" : "68490523",
+    "lastKnownWriteTime" : 1472543872,
+    "path" : "C:/Users/user/Desktop/台大R/台大_R/shiny/reg+svm/TestSVM.R",
+    "project_path" : "TestSVM.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
