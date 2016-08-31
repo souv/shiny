@@ -1,10 +1,10 @@
 # This is the user-interface definition of a Shiny web application.
 # You can find out more about building applications with Shiny here:
-#fiddler.node.js.HOUSE
+#fiddler.node.js.HOUSE.guess the code.pm
 #http://www.codedata.com.tw/javascript/using-nodejs-to-learn-javascript
 # https://blog.allenchou.cc/node-js-web-spider/
-# http://shiny.rstudio.com
-#
+#http://ccckmit.github.io/webbook/htm/node.html
+#http://www.infoq.com/cn/articles/what-is-nodejs
 
 library(shiny)
 source('./TestAndRegression/ReFit.R')
